@@ -3,19 +3,20 @@ var app = express();
 var bodyParser = require('body-parser');
 
 
-// // connection configurations
-// var dbConn = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     password: '',
-//     database: 'node_js_api'
-// });
-// // connect to database
-// dbConn.connect();
-
-const dbConn = require('./dbConnect.js').getConnection;
-//const dbConn=db.getConnection();
-
+// connection configurations
+const mysql = require('mysql');
+// connection configurations
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'leoteste',
+    password: 'qwe123',
+    database: 'a1_api',
+    port: 3306,
+    queueLimit: 0, // unlimited queueing
+    connectionLimit: 0 // unlimited connections 
+});
+// connect to database
+db.connect();
 
 
 app.use(bodyParser.json());
@@ -23,21 +24,21 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-
-
 // default route
 app.get('/', function (req, res) {
     return res.send({ error: true, message: 'The server work!' })
 });
 
-
 // Retrieve all users 
 app.get('/users', function (req, res) {
-    dbConn.query('SELECT * FROM users', function (error, results, fields) {
-       //if (error) throw error;
+    db.query('SELECT * FROM users', function (error, results, fields) {
+        if (error) throw error;
         return res.send({ error: false, data: results, message: 'users list.' });
     });
 });
+
+/*
+
 // Retrieve user with id 
 app.get('/user/:id', function (req, res) {
     let user_id = req.params.id;
@@ -83,7 +84,7 @@ app.delete('/user', function (req, res) {
         return res.send({ error: false, data: results, message: 'User has been updated successfully.' });
     });
 });
-
+*/
 // set port
 app.listen(3000, function () {
     console.log('Node app is running on port 3000');

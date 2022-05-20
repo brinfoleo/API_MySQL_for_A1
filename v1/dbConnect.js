@@ -5,12 +5,15 @@ const dbConnection = mysql.createConnection({
      user: 'leoteste',
      password: 'qwe123',
      database: 'a1_api',
-     port: 3306
+     port: 3306,
+     queueLimit : 0, // unlimited queueing
+     connectionLimit : 0 // unlimited connections 
  });
  // connect to database
  function getConnection(){
-    return dbConnection.connect(); 
+    let con=dbConnection.connect();
+    return con; 
  }
  
 
- module.exports = getConnection;
+ module.exports = getConnection
