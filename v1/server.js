@@ -26,8 +26,32 @@ app.use(bodyParser.urlencoded({
 
 // default route
 app.get('/', function (req, res) {
+    console.log('***************** The server work! *****************');
     return res.send({ error: true, message: 'The server work!' })
 });
+
+
+// receive query
+app.get('/:getQuery', function (req, res) {
+    let tmpQuery = req.params.getQuery;
+
+    console.log('**************** RESULT ******************');
+    console.log(tmpQuery);
+    let tmp = JSON.parse(tmpQuery);
+    console.log("sql: " + tmp.sql);
+    db.query(tmp.sql, function (error, results, fields) {
+        if (error) throw error;
+        return res.send({ error: false, data: results, message: 'receive query.' });
+    });
+
+});
+
+
+
+
+
+/*
+
 
 // Retrieve all users 
 app.get('/users', function (req, res) {
@@ -37,7 +61,6 @@ app.get('/users', function (req, res) {
     });
 });
 
-/*
 
 // Retrieve user with id 
 app.get('/user/:id', function (req, res) {
@@ -89,4 +112,5 @@ app.delete('/user', function (req, res) {
 app.listen(3000, function () {
     console.log('Node app is running on port 3000');
 });
+
 module.exports = app;

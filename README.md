@@ -36,3 +36,6 @@ after run this command open your browser and hit
 http://127.0.0.1:3000
 OR
 http://localhost:3000
+
+Structure for passing object with SQL string
+{sql: "SELECT * FROM users"}
